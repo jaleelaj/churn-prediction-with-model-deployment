@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Customer Churn Prediction</h1>
+        <form id="prediction-form">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+            
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            
+            <label for="location">Location:</label>
+            <select id="location" name="location" required>
+                <option value="Los Angeles">Los Angeles</option>
+                <option value="New York">New York</option>
+                <option value="Miami">Miami</option>
+                <!-- Add more location options here -->
+            </select>
+            
+            <label for="subscriptionMonths">Subscription Length (Months):</label>
+            <input type="number" id="subscriptionMonths" name="subscriptionMonths" required>
+            
+            <label for="monthlyBill">Monthly Bill ($):</label>
+            <input type="number" id="monthlyBill" name="monthlyBill" required>
+            
+            <label for="usageGB">Total Usage (GB):</label>
+            <input type="number" id="usageGB" name="usageGB" required>
+            
+            <button type="submit">Predict</button>
+        </form>
+        
+        <div id="result">
+            <p>Prediction: <span id="prediction"></span></p>
+        </div>
+    </div>
+    
+    <script>
+        const form = document.getElementById('prediction-form');
+        const predictionSpan = document.getElementById('prediction');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            predictionSpan.textContent = data.prediction;
+        });
+    </script>
+</body>
+</html>
